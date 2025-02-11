@@ -5,8 +5,6 @@
 *.suo
 *.user
 *.sln.docstates
-Api/appsettings.Development.json
-Api/appsettings.json
 .vs
 
 # Build results

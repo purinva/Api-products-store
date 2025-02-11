@@ -1,8 +1,6 @@
 ﻿using Api.Data;
 using Api.Model;
 using Api.ModelDto;
-using Api.Service.Storage;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -11,14 +9,9 @@ namespace Api.Controller
 {
     public class ProductController : StoreController
     {
-        private readonly IFileStorageService fileStorage;
 
-        public ProductController(AppDbContext dbContext,
-            IFileStorageService fileStorage)
-            : base(dbContext)
-        {
-            this.fileStorage = fileStorage;
-        }
+        public ProductController(AppDbContext dbContext)
+            : base(dbContext) { }
 
         [HttpGet]
         public async Task<IActionResult> FetchProductsWithPagination(
@@ -97,7 +90,7 @@ namespace Api.Controller
                             SpecialTag = productCreateDto.SpecialTag,
                             Category = productCreateDto.Category,
                             Price = productCreateDto.Price,
-                            Image = await fileStorage.UploadFileAsync(productCreateDto.Image)
+                            Image = $"https://placehold.co/250"
                         };
 
                         await dbContext.Products.AddAsync(item);
@@ -175,8 +168,7 @@ namespace Api.Controller
                         if (productUpdateDto.Image != null
                             && productUpdateDto.Image.Length > 0)
                         {
-                            await fileStorage.RemoveFileAsync(productFromDb.Image.Split('/').Last());
-                            productFromDb.Image = await fileStorage.UploadFileAsync(productUpdateDto.Image);
+                            productFromDb.Image = $"https://placehold.co/300";
                         }
 
                         dbContext.Products.Update(productFromDb);
@@ -235,7 +227,6 @@ namespace Api.Controller
                     });
                 }
 
-                await fileStorage.RemoveFileAsync(productFromDb.Image.Split('/').Last());
                 dbContext.Products.Remove(productFromDb);
                 await dbContext.SaveChangesAsync();
 

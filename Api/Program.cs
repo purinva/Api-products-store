@@ -14,7 +14,6 @@ builder.Services.AddCors();
 builder.Services.AddShoppingCartService();
 builder.Services.AddOrdersService();
 builder.Services.AddPaymentService();
-builder.Services.AddFileStorageService(builder.Configuration);
 
 var app = builder.Build();
 app.MapControllers();

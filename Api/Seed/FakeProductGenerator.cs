@@ -17,7 +17,7 @@ namespace Api.Seed
                 .RuleFor(m => m.Category, f => f.PickRandom(categories))
                 .RuleFor(m => m.SpecialTag, f => f.PickRandom(specialTags))
                 .RuleFor(m => m.Price, f => Math.Round(f.Random.Double(1, 1000), 2))
-                .RuleFor(m => m.Image, f => $"https://s3.timeweb.cloud/your_Path-style/img{f.IndexFaker}.png")
+                .RuleFor(m => m.Image, f => $"https://placehold.co/200")
                 .Generate(count);
         }
     }
